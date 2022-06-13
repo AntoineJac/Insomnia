@@ -1,0 +1,21 @@
+_id: req_59f57d9fff214cd0972106f2b0ad7642
+type: Request
+parentId: wrk_befc7fff607140be99569eea78f35195
+modified: 1655116373164
+created: 1655116355378
+url: "{{ base_url }}/uuid"
+name: testAntoine
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1655116355378
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

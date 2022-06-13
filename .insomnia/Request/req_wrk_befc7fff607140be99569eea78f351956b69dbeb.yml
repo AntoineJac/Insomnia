@@ -1,0 +1,21 @@
+_id: req_wrk_befc7fff607140be99569eea78f351956b69dbeb
+type: Request
+parentId: fld_wrk_befc7fff607140be99569eea78f35195aa8f342e
+modified: 1655115873408
+created: 1655115873408
+url: "{{ base_url }}/uuid"
+name: Return a UUID4.
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1655115873408
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
