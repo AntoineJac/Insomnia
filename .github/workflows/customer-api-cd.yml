@@ -41,55 +41,7 @@ jobs:
           sudo cp /tmp/deck /usr/local/bin/ 
       - name: Install inso
         run: npm install -g insomnia-inso kong-portal-cli 
-     
-          
-      # API Spec linting
-      - name: Validate specification
-        run: inso lint spec customer-api
-      
-      # Deploy Customer OAS spec to the Dev Portal
-      - name: Prepare URL 4 Portal
-        uses: cschleiden/replace-tokens@v1
-        with:
-          tokenPrefix: '${'
-          tokenSuffix: '}$'
-          files: '["./.insomnia/ApiSpec/*.yml"]'
-        env:
-          UPSTREAM_SERVER_URL: '${{ secrets.KONG_PROXY_ADDR }}'           
-      # We will push to the Kong dev portal
-      - name: Deploy to dev portal
-        run: |          
-          inso export spec customer-api --output workspaces/customer/specs/customer.yaml
-          cp workspaces/customer/cli.conf.yaml.example workspaces/customer/cli.conf.yaml
-          portal deploy --disable-ssl-verification --preserve customer
-        env:
-          KONG_ADMIN_URL: ${{ secrets.KONG_ADDR }}
-          KONG_ADMIN_TOKEN: ${{ secrets.KONG_ADMIN_TOKEN }}
-            
-      - name: Restore OAS Spec
-        run: |
-          cp  ./spec-backup/*.yml ./.insomnia/ApiSpec                   
-      - name: Prepare URL 4 Declarative Services
-        uses: cschleiden/replace-tokens@v1
-        with:
-          tokenPrefix: '${'
-          tokenSuffix: '}$'
-          files: '["./.insomnia/ApiSpec/*.yml"]'
-        env:
-          UPSTREAM_SERVER_URL: '${{ secrets.UPSTREAM_SERVER_URL }}'
-          SUMO_SERVER_URL: '${{ secrets.SUMO_SERVER_URL }}'
-      
-      # Generate declarative config
-      - name: Generate declarative config
-        run: |
-          inso generate config customer-api --tags customer-api --type declarative --output kong.yaml 
-          cat kong.yaml
-
-      # Ping the Kong instance
-      # Sync to Kong
-      - name: Update Kong
-        run: deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} && deck sync --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --workspace customer --skip-consumers --kong-addr ${{ secrets.KONG_ADDR }} > sync.output.txt
-            
+        
       # Run tests
       - name: Run test suites
         run: inso run test customer-api -e ${{ env.TARGET_ENVIRONMENT }}
